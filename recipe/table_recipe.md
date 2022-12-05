@@ -71,7 +71,12 @@ I want to receive confirmation for my booking
 | Record                | Properties          |
 | --------------------- | ------------------  |
 | users                 | id, email, username, password
-| listings              | id, name, description, price, user_id
+| listings              | id, name, description, price, user_id, available_from, available_to
+| bookings              | id, check_in, check_out, confirmed, listing_id, guest_id
+
+
+
+
 
 
 a comment links to one post
@@ -197,7 +202,8 @@ Replace the relevant bits in this example with your own:
 | Record                | Properties          |
 | --------------------- | ------------------  |
 | users                 | id, email, username, password
-| listings              | id, name, description, price, user_id
+| listings              | id, name, description, price, user_id, available_from, available_to
+| bookings              | id, check_in, check_out, confirmed, listing_id, guest_id
 
 
 Database name: makersbnb
@@ -219,10 +225,29 @@ CREATE TABLE listings (
   description text,
   price int,
   user_id int,
+  available_from date,
+  available_to date
 
   constraint fk_user foreign key(user_id)
     references users(id)
     on delete cascade
+);
+
+CREATE TABLE bookings (
+  id SERIAL PRIMARY KEY,
+  check_in date,
+  check_out date,
+  confirmed boolean,
+  listing_id int,
+  guest_id int
+
+  constraint fk_listing foreign key(listing_id)
+    references listings(id)
+    on delete cascade
+
+    constraint fk_guest foreign key(guest_id)
+      references users(id)
+      on delete cascade
 );
 
 
