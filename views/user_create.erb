@@ -1,10 +1,43 @@
-<form action="/signup" method="POST">
-    username: <input type="text" name="username" /><br />
-    email:  <input type="text" name="email" /><br />
-    password:  <input type="password" name="password" /><br />
+<body style="background-color:#FFBF80;">
+<head>
+<style>
+h1 {text-align: center;}
+p {text-align: center;}
+div {text-align: center;}
+  html {
+                min-height: 100%;    /* Unlike 'height', which is used by
+                                        @Paulie_D, this will make your webpage
+                                        automatically resize when it exceeds
+                                        the 100% height, thus it won't start the
+                                        gradient over
+                                      */
+            }
 
-    <input type="submit" value="submit">
+            body {
+                background: linear-gradient(  180deg,
 
+                                              #C0C0AA     0%,
+                                              #1CEFFF   100%
+                                          );
+            }
+
+</style>
+<header class="user__header">
+        <h1 style="font-family:optima;">Sign-up with Makersbnb!</h1>
+    </header>
+<form method="POST" action="/signup">
+    <div>
+    username: <input type="text" name="Username" /><br />
+    </div>
+    <div>
+    email:  <input type="text" name="Email" /><br />
+    </div>
+     <div>
+    password:  <input type="password" name="Password" /><br />
+    </div>
+    <div>
+    <input type="submit" value="submit"> 
+    </div>
 
     <%# <div>
         <label>name</label>
@@ -26,5 +59,69 @@
         <input type="text" placeholder="post[password]" />
     </div> %>
 
-    <%# <input type="submit" /> %>
-</form>
+    <%# <input type="submit" /> 
+<body style="background-color:#FFBF80;">
+<head>
+<style>
+h1 {text-align: center;}
+p {text-align: center;}
+div {text-align: center;}
+  html {
+                min-height: 100%;    /* Unlike 'height', which is used by
+                                        @Paulie_D, this will make your webpage
+                                        automatically resize when it exceeds
+                                        the 100% height, thus it won't start the
+                                        gradient over
+                                      */
+            }
+
+            body {
+                background: linear-gradient(  180deg,
+
+                                              #C0C0AA     0%,
+                                              #1CEFFF   100%
+                                          );
+            }
+
+
+            /***** Content design *****/
+
+            #hello {
+                font-family: sans-serif;
+                font-size:   5em;
+                text-align:  center;
+
+                color:       #424242;
+                text-shadow: 0 0 1rem darkgray;
+
+                transition:  0.25s;
+            }
+
+            #hello:hover {
+                font-size:   100vh;
+                color:       darkgray;
+            }
+</style>
+<%#</head>
+<div class="user">
+    <header class="user__header">
+        <h1 style="font-family:optima;">Sign-up with Makersbnb!</h1>
+    </header>
+    
+    <form method="POST" action="/signup">
+        <div class="form__group">
+            <input type="text" placeholder="Username" class="form__input" />
+        </div>
+        
+        <div class="form__group">
+            <input type="email" placeholder="Email" class="form__input" />
+        </div>
+        
+        <div class="form__group">
+            <input type="password" placeholder="Password" class="form__input" />
+        </div>
+        
+        <button class="btn" type="button">Register</button>
+    </form>
+</div>
+</body>%>

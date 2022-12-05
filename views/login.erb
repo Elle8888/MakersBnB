@@ -1,3 +1,26 @@
+<html>
+<style>
+h1 {text-align: center;}
+p {text-align: center;}
+div {text-align: center;}
+  html {
+                min-height: 100%;    /* Unlike 'height', which is used by
+                                        @Paulie_D, this will make your webpage
+                                        automatically resize when it exceeds
+                                        the 100% height, thus it won't start the
+                                        gradient over
+                                      */
+            }
+
+            body {
+                background: linear-gradient(  180deg,
+
+                                              #C0C0AA     0%,
+                                              #1CEFFF   100%
+                                          );
+            }
+
+</style>
 <h1>Login</h1>
 
 <% if @error %>
@@ -5,10 +28,15 @@
 <% end %>
 
 <form action="/login" method="post">
+    <div>
+        <input type="text" name="email" placeholder="Email" />
+    </div>
 
-    <input type="text" name="email" placeholder="email" />
-    <input type="password" name="password" placeholder="Password" />
+    <div>
+        <input type="password" name="password" placeholder="Password" />
+    </div>
 
-    <input type="submit" name="button" value="Login" />
-
+    <div>
+        <input type="submit" name="button" value="Login" />
+    </div>
 </form>
