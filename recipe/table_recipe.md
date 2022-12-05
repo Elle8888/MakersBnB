@@ -226,7 +226,7 @@ CREATE TABLE listings (
   price int,
   user_id int,
   available_from date,
-  available_to date
+  available_to date,
 
   constraint fk_user foreign key(user_id)
     references users(id)
@@ -239,11 +239,11 @@ CREATE TABLE bookings (
   check_out date,
   confirmed boolean,
   listing_id int,
-  guest_id int
+  guest_id int,
 
   constraint fk_listing foreign key(listing_id)
     references listings(id)
-    on delete cascade
+    on delete cascade,
 
     constraint fk_guest foreign key(guest_id)
       references users(id)
