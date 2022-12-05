@@ -55,22 +55,35 @@ describe Application do
   end
 
   context 'GET /signup/new' do
-    it 'should return a sing-up form ' do
+    it 'should return a sign-up form ' do
     response = get('/signup/new')
 
     expect(response.status).to eq(200)
     expect(response.body).to include('<form method="POST" action="/signup">')
-    expect(response.body). to include('<input type="text" name="username" /><br />')
-    expect(response.body). to include('<input type="text" name="email" /><br />')
-    expect(response.body). to include('<input type="password" name="password" /><br />')
+    expect(response.body). to include('<input type="text" name="Username" /><br />')
+    expect(response.body). to include('<input type="text" name="Email" /><br />')
+    expect(response.body). to include('<input type="password" name="Password" /><br />')
     end
   end
   context 'POST to /signup' do
-    it 'should validate signup parameters' do
-      response = post('/users', another_invalid_thing: 123)
+    it 'returns 400 when password is missing' do
+      response = post('/signup', username: 'user3', email: 'name3@gmail.com')
 
-      expect(response.status).to eq(404)
+      expect(response.status).to eq(400)
     end
+
+    it 'returns 400 when username is missing' do
+      response = post('/signup', email: 'name3@gmail.com', password: 'password3')
+
+      expect(response.status).to eq(400)
+    end
+
+    it 'returns 400 when email is missing' do
+      response = post('/signup', username: 'user3', password: 'password3')
+
+      expect(response.status).to eq(400)
+    end
+
     it 'creates a new user account' do
       response = post('/signup', username: 'user3', email: 'name3@gmail.com', password: 'password3')
 

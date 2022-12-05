@@ -28,7 +28,6 @@ class Application < Sinatra::Base
   end
   
   post '/signup' do
-    p params
 
     if invalid_users_params?
       status 400
@@ -64,25 +63,9 @@ class Application < Sinatra::Base
   end
 
   def invalid_users_params?
-    if params[:name] == nil
-      puts "no name"
-      return false
-    end
-
-    if params[:username] == nil
-      puts "no username"
-      return false
-    end
-
-    if params[:email] == nil
-      puts "no email"
-      return false
-    end
-
-    if params[:password] == nil
-      puts "no password"
-      return false
-    end
+    return (params[:username] == nil || 
+      params[:email] == nil || 
+      params[:password] == nil)
   end
 
   get '/users/:id' do
