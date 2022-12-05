@@ -23,7 +23,7 @@ describe Application do
     connection = PG.connect({ host: '127.0.0.1', dbname: 'makersbnb_test' })
     connection.exec(seed_sql)
   end
-  
+
   before(:each) do
     reset_users_table
   end
@@ -81,6 +81,7 @@ describe Application do
 
       expect(response.status).to eq(200)
       expect(response.body).to include('user3')
+      expect(response.body).to include('user2')
     end
   end
 end

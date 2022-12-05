@@ -52,11 +52,6 @@ class Application < Sinatra::Base
 
   post '/login' do
 
-    # if invalid__users_params?
-    #   status 400
-    #   return 'WRONG'
-    # end
-
     repo = UserRepository.new
     user = repo.find_by_values(params[:email], params[:password])
     unless user.nil?
@@ -88,14 +83,7 @@ class Application < Sinatra::Base
       puts "no password"
       return false
     end
-
-      # return ( ||
-      # params[:username] == nil ||
-      # params[:email] == nil ||
-      # params[:password] == nil)
   end
-
-  # add validadtion for ID to make sure its a number
 
   get '/users/:id' do
     repo = UserRepository.new
