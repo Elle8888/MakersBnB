@@ -200,6 +200,9 @@ Replace the relevant bits in this example with your own:
 | listings              | id, name, description, price, user_id
 
 
+Database name: makersbnb
+Test database: makersbnb_test
+
 -- Create the table without the foreign key first.
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
