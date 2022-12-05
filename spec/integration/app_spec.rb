@@ -3,6 +3,7 @@ require "rack/test"
 require_relative '../../app'
 require 'json'
 
+
 describe Application do
   # This is so we can use rack-test helper methods.
   include Rack::Test::Methods
@@ -17,12 +18,69 @@ describe Application do
   # one test suite for each set of related features),
   # you can duplicate this test file to create a new one.
 
-
+  def reset_users_table
+    seed_sql = File.read('spec/seeds_users.sql')
+    connection = PG.connect({ host: '127.0.0.1', dbname: 'makersbnb_test' })
+    connection.exec(seed_sql)
+  end
+  
+  before(:each) do
+    reset_users_table
+  end
   context 'GET /' do
     it 'should get the homepage' do
       response = get('/')
 
       expect(response.status).to eq(200)
+    end
+  end
+
+  context 'GET to /users' do
+      it 'list all the users' do
+        response = get('/users')
+
+        expect(response.status).to eq(200)
+        expect(response.body).to match('<a href="/users/1">user1.*</a><br />')
+        expect(response.body).to match('<a href="/users/2">user2.*</a><br />')
+      end
+  end
+  context 'GET /users/:id' do
+    it 'should return user1 information' do
+      response = get('/users/1')
+
+      expect(response.status).to eq(200)
+      expect(response.body).to include(' <h1> Welcome user1!</h1>')
+      expect(response.body).to include('email: name1@email.com')
+    end
+  end
+
+  context 'GET /signup/new' do
+    it 'should return a sing-up form ' do
+    response = get('/signup/new')
+
+    expect(response.status).to eq(200)
+    expect(response.body).to include('<form method="POST" action="/signup">')
+    expect(response.body). to include('<input type="text" name="username" /><br />')
+    expect(response.body). to include('<input type="text" name="email" /><br />')
+    expect(response.body). to include('<input type="password" name="password" /><br />')
+    end
+  end
+  context 'POST to /signup' do
+    it 'should validate signup parameters' do
+      response = post('/users', another_invalid_thing: 123)
+
+      expect(response.status).to eq(404)
+    end
+    it 'creates a new user account' do
+      response = post('/signup', username: 'user3', email: 'name3@gmail.com', password: 'password3')
+
+      expect(response.status).to eq(200)
+      expect(response.body).to eq('')
+
+      response = get('/users')
+
+      expect(response.status).to eq(200)
+      expect(response.body).to include('user3')
     end
   end
 end
