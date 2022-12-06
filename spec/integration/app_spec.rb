@@ -18,11 +18,16 @@ describe Application do
   # you can duplicate this test file to create a new one.
 
 
-  context 'GET /' do
-    it 'should get the homepage' do
-      response = get('/')
+  context "GET /" do
+    it 'returns 200 OK' do
+      # Assuming the post with id 1 exists.
+      response = get('/booking/new')
 
       expect(response.status).to eq(200)
+      expect(response.body).to include('<h1>Make a booking!</h1>')
+      expect(response.body).to include('<form action="/booking/new" method="POST">')
+      expect(response.body).to include('<input type="date" name="check_out">')
+      expect(response.body).to include('<div>Guest id:</div>')
     end
   end
 end

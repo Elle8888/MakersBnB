@@ -9,4 +9,12 @@ class Application < Sinatra::Base
   get '/' do
     return erb(:index)
   end
+
+  get '/booking/new' do
+    return erb(:create_booking)
+  end
+
+  post '/booking/new' do
+
+  end
 end
