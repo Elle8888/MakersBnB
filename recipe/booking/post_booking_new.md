@@ -9,6 +9,9 @@ You'll need to include:
   * the path
   * any query parameters (passed in the URL)
   * or body parameters (passed in the request body)
+  method: POST
+  path: /booking/new
+  body parameters: check_in, check_out, confirmed, listing_id, guest_id
 
 ## 2. Design the Response
 
@@ -27,25 +30,13 @@ _Replace the below with your own design. Think of all the different possible res
 <html>
   <head></head>
   <body>
-    <h1>Post title</h1>
-    <div>Post content</div>
+    <h1>Your booking has ben requested!</h1>
   </body>
+  <footer>
+    <a href="/">Home</a>
+  </footer>
 </html>
 ```
-
-```html
-<!-- EXAMPLE -->
-<!-- Response when the post is not found: 404 Not Found -->
-
-<html>
-  <head></head>
-  <body>
-    <h1>Sorry!</h1>
-    <div>We couldn't find this post. Have a look at the homepage?</div>
-  </body>
-</html>
-```
-
 ## 3. Write Examples
 
 _Replace these with your own design._
@@ -53,21 +44,11 @@ _Replace these with your own design._
 ```
 # Request:
 
-GET /posts?id=1
+POST /bookin/new
 
 # Expected response:
 
 Response for 200 OK
-```
-
-```
-# Request:
-
-GET /posts?id=276278
-
-# Expected response:
-
-Response for 404 Not Found
 ```
 
 ## 4. Encode as Tests Examples
@@ -83,20 +64,19 @@ describe Application do
 
   let(:app) { Application.new }
 
-  context "GET /" do
+  context "POST /booking/new" do
     it 'returns 200 OK' do
       # Assuming the post with id 1 exists.
-      response = get('/posts?id=1')
+      response = post('/booking/new', check_in: '2022-05-03', check_out: '2022-05-04', confirmed: false, listing_id: 3, guest_id: 1)
+
+      repo = BookingRepository.new
+      bookings = repo.all
 
       expect(response.status).to eq(200)
-      # expect(response.body).to eq(expected_response)
-    end
-
-    it 'returns 404 Not Found' do
-      response = get('/posts?id=276278')
-
-      expect(response.status).to eq(404)
-      # expect(response.body).to eq(expected_response)
+      expect(bookings[-1].check_in).to eq '2022-05-03'
+      expect(bookings[-1].check_out).to eq '2022-05-04'
+      expect(bookings[-1].listing_id).to eq 3
+      expect(bookings[-1].guest_id).to eq 1
     end
   end
 end

@@ -2,6 +2,8 @@ require "spec_helper"
 require "rack/test"
 require_relative '../../app'
 require 'json'
+require 'booking_repository'
+require 'booking'
 
 describe Application do
   # This is so we can use rack-test helper methods.
@@ -28,6 +30,22 @@ describe Application do
       expect(response.body).to include('<form action="/booking/new" method="POST">')
       expect(response.body).to include('<input type="date" name="check_out">')
       expect(response.body).to include('<div>Guest id:</div>')
+    end
+  end
+
+  context "POST /booking/new" do
+    it 'returns 200 OK' do
+      # Assuming the post with id 1 exists.
+      response = post('/booking/new', check_in: '2022-05-03', check_out: '2022-05-04', confirmed: false, listing_id: 3, guest_id: 1)
+
+      repo = BookingRepository.new
+      bookings = repo.all
+
+      expect(response.status).to eq(200)
+      expect(bookings[-1].check_in).to eq '2022-05-03'
+      expect(bookings[-1].check_out).to eq '2022-05-04'
+      expect(bookings[-1].listing_id).to eq 3
+      expect(bookings[-1].guest_id).to eq 1
     end
   end
 end
