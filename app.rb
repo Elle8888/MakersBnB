@@ -2,7 +2,6 @@ require 'sinatra/base'
 require 'sinatra/reloader'
 require_relative 'lib/database_connection'
 require_relative 'lib/user_repository'
-
 require 'bcrypt'
 
 DatabaseConnection.connect('makersbnb_test')
