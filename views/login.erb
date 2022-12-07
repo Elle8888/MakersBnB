@@ -1,0 +1,57 @@
+<html>
+ <head>
+        <title>MakersBnB</title>
+
+        <!--
+            Head to https://github.com/makersacademy/web-applications/blob/main/pills/loading_css_or_static_files.md
+            If you're wondering how the CSS file below is being loaded.
+        -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">  <!-- Google web font "Open Sans" -->
+    <link rel="stylesheet" href="style/font-awesome-4.7.0/css/font-awesome.min.css">                <!-- Font Awesome -->
+    <link rel="stylesheet" href="style/css/bootstrap.min.css">                                      <!-- Bootstrap style -->
+    <link rel="stylesheet" type="text/css" href="style/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="style/slick/slick-theme.css"/>
+    <link rel="stylesheet" type="text/css" href="style/css/datepicker.css"/>
+    <link rel="stylesheet" href="style/css/tooplate-style.css">  
+    </head>
+<style>
+h1 {text-align: center;}
+p {text-align: center;}
+div {text-align: center;}
+  html {
+                min-height: 100%;    /* Unlike 'height', which is used by
+                                        @Paulie_D, this will make your webpage
+                                        automatically resize when it exceeds
+                                        the 100% height, thus it won't start the
+                                        gradient over
+                                      */
+            }
+
+            body {
+                background: linear-gradient(  180deg,
+
+                                              #FFD9B3     0%,
+                                              #FF8000   100%
+                                          );
+            }
+
+</style>
+<h1>Login</h1>
+
+<% if @error %>
+    <div class="error">Login failed.</div>
+<% end %>
+
+<form action="/login" method="post">
+    <div>
+        <input type="text" name="email" placeholder="Email" />
+    </div>
+
+    <div>
+        <input type="password" name="password" placeholder="Password" />
+    </div>
+
+    <div>
+        <input type="submit" name="button" value="Login" />
+    </div>
+</form>
