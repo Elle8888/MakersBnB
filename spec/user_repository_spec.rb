@@ -3,7 +3,7 @@ require 'user_repository'
 describe UserRepository do
 
 def reset_user_table
-    seed_sql = File.read('spec/seeds_users.sql')
+    seed_sql = File.read('spec/seeds/test_seeds.sql')
     connection = PG.connect({ host: '127.0.0.1', dbname: 'makersbnb_test' })
     connection.exec(seed_sql)
 end

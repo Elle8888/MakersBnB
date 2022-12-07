@@ -2,17 +2,9 @@ require 'sinatra/base'
 require 'sinatra/reloader'
 require_relative 'lib/database_connection'
 require_relative 'lib/listing_repository'
-require_relative 'lib/listing'
-
-
-DatabaseConnection.connect('makersbnb_test')
-
-require_relative 'lib/database_connection'
 require_relative 'lib/user_repository'
-require 'bcrypt'
-
-require_relative 'lib/booking'
 require_relative 'lib/booking_repository'
+require 'bcrypt'
 
 # Need to take this out when merging and connect to just makersbnb
 ENV['ENV'] = 'test'
@@ -24,6 +16,7 @@ class Application < Sinatra::Base
     register Sinatra::Reloader
     also_reload 'lib/listing_repository'
     also_reload 'lib/user_repository'
+    also_reload 'lib/booking_repository'
     enable :sessions
   end
 
@@ -134,8 +127,7 @@ class Application < Sinatra::Base
     return erb(:requested_booking)
   end
   
-  
-    get '/listings' do
+  get '/listings' do
     repo = ListingRepository.new
     @all_listings = repo.all
     return erb(:listings)
@@ -144,7 +136,6 @@ class Application < Sinatra::Base
   get '/listings/new' do
     return erb(:new_listings)
   end
-
 
   post '/listings/new' do
     new_listing = Listing.new

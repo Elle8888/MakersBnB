@@ -215,7 +215,8 @@ CREATE TABLE users (
   id SERIAL PRIMARY KEY,
   username text,
   email text,
-  password text
+  password text,
+  session_id text
 );
 
 
