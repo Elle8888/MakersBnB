@@ -16,7 +16,7 @@ end
 
     user = repo.all
 
-    expect(user.length).to eq 2
+    expect(user.length).to eq 3
     
     expect(user[0].id).to eq '1'
     expect(user[0].username).to eq  'user1'
@@ -40,7 +40,7 @@ end
     expect(user.password).to eq 'password1'
   end
 
-  it 'creates a new maker' do
+  it 'creates a new maker with encrypted password' do
     
     repo = UserRepository.new
 
@@ -60,8 +60,11 @@ end
       id: new_user.id,
       username: new_user.username,
       email: new_user.email,
-      password: new_user.password
       )
     )
+
+    users = repo.find(3)
+    password = BCrypt::Password.new(users.password)
+    expect(password == new_user.password).to eq false
   end
 end

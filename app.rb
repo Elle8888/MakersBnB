@@ -3,16 +3,24 @@ require 'sinatra/reloader'
 require_relative 'lib/database_connection'
 require_relative 'lib/user_repository'
 
+require 'bcrypt'
+
 DatabaseConnection.connect('makersbnb_test')
 
 class Application < Sinatra::Base
   configure :development do
     register Sinatra::Reloader
     also_reload 'lib/user_repository'
+    enable :sessions
+  end
+
+  configure do
+    enable :sessions
   end
 
   get '/' do
-    return erb(:index)
+    return "#{session.id}"
+    # return erb(:index)
   end
 
   get '/users' do
@@ -24,11 +32,15 @@ class Application < Sinatra::Base
 
   get '/signup/new' do
 
-    return erb(:user_create)
-  end
-  
-  post '/signup' do
+    @user = User.new
+    @user.username = params[:username]
+    @user.email = params[:email]
+    @user.password = params[:password]
 
+    return erb(:signup)
+  end
+
+  post '/signup' do
     if invalid_users_params?
       status 400
       return ''
@@ -42,7 +54,7 @@ class Application < Sinatra::Base
 
     repo.create(new_user)
 
-    return ''
+    redirect '/login'
   end
 
   get '/login' do
@@ -52,10 +64,19 @@ class Application < Sinatra::Base
   post '/login' do
 
     repo = UserRepository.new
-    user = repo.find_by_values(params[:email], params[:password])
+    user = repo.find_by_values(params[:email])
+
     unless user.nil?
-      session['user_id'] = user.id
-      redirect '/'
+      password = BCrypt::Password.new(user.password)
+      if password == params[:password]
+        # session['user_id'] = user.id
+        # puts "SESSION: #{session.to_s}"
+        # this will store the session id in the DB using UPDATE query
+        # UPDATE users SET session_id=$1 WHERE id=$2;
+        repo.update_session_id(user.id, session.id)
+
+        redirect '/'
+      end
     end
 
     status 401

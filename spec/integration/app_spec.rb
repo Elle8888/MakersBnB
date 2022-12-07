@@ -60,9 +60,9 @@ describe Application do
 
     expect(response.status).to eq(200)
     expect(response.body).to include('<form method="POST" action="/signup">')
-    expect(response.body). to include('<input type="text" name="Username" /><br />')
-    expect(response.body). to include('<input type="text" name="Email" /><br />')
-    expect(response.body). to include('<input type="password" name="Password" /><br />')
+    expect(response.body). to include('<input type="text" name="username" value=””><br />')
+    expect(response.body). to include(' <input type="text" name="email" value=””><br />')
+    expect(response.body). to include(' <input type="password" name="password"><br />')
     end
   end
   context 'POST to /signup' do
@@ -87,7 +87,7 @@ describe Application do
     it 'creates a new user account' do
       response = post('/signup', username: 'user3', email: 'name3@gmail.com', password: 'password3')
 
-      expect(response.status).to eq(200)
+      expect(response.status).to eq(302)
       expect(response.body).to eq('')
 
       response = get('/users')
@@ -95,6 +95,38 @@ describe Application do
       expect(response.status).to eq(200)
       expect(response.body).to include('user3')
       expect(response.body).to include('user2')
+    end
+  end
+
+  context 'GET to /login' do
+    it 'returns a login form' do
+      response = get('/login')
+
+      expect(response.status).to eq(200)
+      expect(response.body).to match('<input type="text" name="email" placeholder="Email" />')
+      expect(response.body).to match('<input type="password" name="password" placeholder="Password" />')
+    end
+  end
+
+  context 'POST to /login' do
+    it 'allows the user to login with valid email and password and redirects' do
+      response = post('/login', email: 'name3@email.com', password: 'user')
+
+      expect(response.status).to eq(302)
+      # expect(response).to render_template(:index)
+      
+    end
+
+    # it 'directs the user to the index page' do
+    #   response = post('/login', email: 'name3@email.com', password: 'password3')
+
+    #   expect(response.status).to eq(200)
+  
+
+    it 'displays 401 for invalid log in' do
+      response = post('/login', email: 'name@email.com', password: 'password3')
+
+      expect(response.status).to eq(401)
     end
   end
 end
