@@ -70,7 +70,7 @@ I want to receive confirmation for my booking
 ```
 | Record                | Properties          |
 | --------------------- | ------------------  |
-| users                 | id, email, username, password
+| users                 | id, username, email, password
 | listings              | id, name, description, price, user_id, available_from, available_to
 | bookings              | id, check_in, check_out, confirmed, listing_id, guest_id
 
@@ -201,7 +201,7 @@ Replace the relevant bits in this example with your own:
 -- Replace the table name, columm names and types.
 | Record                | Properties          |
 | --------------------- | ------------------  |
-| users                 | id, email, username, password
+| users                 | id, username, email, password
 | listings              | id, name, description, price, user_id, available_from, available_to
 | bookings              | id, check_in, check_out, confirmed, listing_id, guest_id
 
@@ -209,11 +209,12 @@ Replace the relevant bits in this example with your own:
 Database name: makersbnb
 Test database: makersbnb_test
 
+
 -- Create the table without the foreign key first.
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
-  email text,
   username text,
+  email text,
   password text
 );
 
@@ -226,7 +227,7 @@ CREATE TABLE listings (
   price int,
   user_id int,
   available_from date,
-  available_to date
+  available_to date,
 
   constraint fk_user foreign key(user_id)
     references users(id)
@@ -239,11 +240,11 @@ CREATE TABLE bookings (
   check_out date,
   confirmed boolean,
   listing_id int,
-  guest_id int
+  guest_id int,
 
   constraint fk_listing foreign key(listing_id)
     references listings(id)
-    on delete cascade
+    on delete cascade,
 
     constraint fk_guest foreign key(guest_id)
       references users(id)
