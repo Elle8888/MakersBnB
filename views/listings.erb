@@ -11,5 +11,28 @@
     </head>
     <body>
         <p>This is the homepage.</p>
+
+        <h1>All listing</h1>
+
+        <% @all_listings.each do |listing| %>
+          <div>
+            <hr>
+            <h5>
+              Name: <%=listing.name%>
+              <br>
+              Description: <%= listing.description %>
+              <br>
+              Price: <%= listing.price %>
+              <br>
+              User_id: <%= listing.user_id %>
+              <br>
+              Available_from: <%= listing.available_from %>
+              <br>
+              Available to: <%= listing.available_to %>
+            </h5>
+          </div>
+          <% end %>
+
+
     </body>
 </html>
