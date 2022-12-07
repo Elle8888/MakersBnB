@@ -5,7 +5,6 @@ require_relative 'lib/database_connection'
 require_relative 'lib/user_repository'
 require 'bcrypt'
 
-=======
 require_relative 'lib/booking'
 require_relative 'lib/booking_repository'
 
