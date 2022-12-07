@@ -224,7 +224,7 @@ CREATE TABLE listings (
   id SERIAL PRIMARY KEY,
   name text,
   description text,
-  price int,
+  price decimal(12,2),
   user_id int,
   available_from date,
   available_to date,
