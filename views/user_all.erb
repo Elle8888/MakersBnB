@@ -1,0 +1,49 @@
+<html>
+<style>
+h1 {text-align: center;}
+p {text-align: center;}
+div {text-align: center;}
+  html {
+                min-height: 100%;    /* Unlike 'height', which is used by
+                                        @Paulie_D, this will make your webpage
+                                        automatically resize when it exceeds
+                                        the 100% height, thus it won't start the
+                                        gradient over
+                                      */
+            }
+
+            body {
+                background: linear-gradient(  180deg,
+
+                                              #C0C0AA     0%,
+                                              #1CEFFF   100%
+                                          );
+            }
+
+
+            /***** Content design *****/
+
+            #hello {
+                font-family: sans-serif;
+                font-size:   5em;
+                text-align:  center;
+
+                color:       #424242;
+                text-shadow: 0 0 1rem darkgray;
+
+                transition:  0.25s;
+            }
+
+            #hello:hover {
+                font-size:   100vh;
+                color:       darkgray;
+            }
+</style>
+  <head></head>
+  <body>
+    <h1>Users</h1>
+    <% @users.each do |r| %>
+        <a href="/users/<%= r.id %>"><%= r.username %> </a><br />
+    <% end %>
+  </body>
+</html>
