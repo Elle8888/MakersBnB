@@ -9,4 +9,8 @@ class Application < Sinatra::Base
   get '/' do
     return erb(:index)
   end
+
+  get '/confirm' do
+    return erb(:confirm)
+  end
 end

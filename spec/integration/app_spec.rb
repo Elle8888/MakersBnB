@@ -18,11 +18,12 @@ describe Application do
   # you can duplicate this test file to create a new one.
 
 
-  context 'GET /' do
-    it 'should get the homepage' do
-      response = get('/')
+  context 'GET /confirm' do
+    it 'should be a confirmation page' do
+      response = get('/confirm')
 
       expect(response.status).to eq(200)
+      expectexpect(response.body).to include('<h1>Your request is confirmed :) </h1>'))
     end
   end
 end
