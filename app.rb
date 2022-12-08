@@ -5,6 +5,8 @@ require_relative 'lib/listing_repository'
 require_relative 'lib/user_repository'
 require_relative 'lib/booking_repository'
 require 'bcrypt'
+require_relative 'lib/booking'
+require_relative 'lib/request'
 
 # Need to take this out when merging and connect to just makersbnb
 ENV['ENV'] = 'test'
@@ -155,13 +157,26 @@ class Application < Sinatra::Base
     booking_repo = BookingRepository.new
     listing_repo = ListingRepository.new
 
-    requested_bookings = repo.find_by_guest(1) #(session[:user_id])
+    # My requests
+    @requested_bookings = booking_repo.find_by_guest(1) #(session[:user_id])
+  
 
-    bookings_to_approve = repo.find_by_owner(1) #(session[:user_id])
+    # Requests to approve
+    @requests_to_approve = booking_repo.find_by_owner_id(1) #(session[:user_id])
 
     return erb(:requests_page)
   end
 
+  post '/requests/approve' do
+    BookingRepository.approve(params[:booking_id].to_i)
+    redirect('/requests')
+  end
+
+  post '/requests/reject' do
+    BookingRepository.reject(params[:booking_id].to_i)
+    redirect('/requests')
+  end
+  
   private
 
   # It doesn't check for listing_id or guest_id because when done properly the user will not input either.
