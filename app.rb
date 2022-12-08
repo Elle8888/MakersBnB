@@ -122,11 +122,12 @@ class Application < Sinatra::Base
     new_booking.check_out = params[:check_out]
     new_booking.confirmed = false
     new_booking.listing_id = params[:listing_id]
+    new_booking.guest_id = params[:guest_id]
     # new_booking.guest_id = session[:session_id] #changed to session id from user_id
 
-    user_repo = UserRepository.new
-    user = user_repo.find_by_session_id(session[:session_id])
-    new_booking.guest_id = user.id
+    # user_repo = UserRepository.new
+    # user = user_repo.find_by_session_id(session[:session_id])
+    # new_booking.guest_id = user.id
 
     repo.create(new_booking)
 
