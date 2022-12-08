@@ -58,6 +58,25 @@ class UserRepository
     return user
   end
 
+  def find_by_session_id(session_id)
+    sql = 'SELECT id, username, email, password FROM users WHERE (session_id = $1);'
+    sql_params = [session_id]
+    result_set = DatabaseConnection.exec_params(sql, sql_params)
+
+    if result_set.num_tuples.zero?
+      return nil
+    end
+
+    user = User.new
+    user.id = result_set[0]['id']
+    user.username = result_set[0]['username']
+    user.email = result_set[0]['email']
+    user.password = result_set[0]['password']
+
+    return user
+  end
+
+
   def update_session_id(user_id, session_id)
     sql = 'UPDATE users SET session_id=$1 WHERE id=$2'
     sql_params = [session_id, user_id]
