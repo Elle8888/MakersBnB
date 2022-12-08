@@ -30,33 +30,33 @@ describe Application do
   before(:each) do
     reset_users_table
   end
-  
+
   context 'GET /' do
     it 'should get the homepage' do
       response = get('/')
-      
+
       expect(response.status).to eq(200)
     end
   end
 
-  context "GET /booking/new" do
+  context "GET /listings/1" do
     it 'returns 200 OK' do
       # Assuming the post with id 1 exists.
-      response = get('/booking/new')
+      response = get('/listings/1')
 
 
       expect(response.status).to eq(200)
       expect(response.body).to include('<h1>Make a booking!</h1>')
-      expect(response.body).to include('<form action="/booking/new" method="POST" class="tm-search-form tm-section-pad-2">')
+      expect(response.body).to include('<form action="/listings/1" method="POST" class="tm-search-form tm-section-pad-2">')
       expect(response.body).to include('<input type="date" name="check_out" placeholder="Check Out" class="form-control">')
     end
   end
 
-  context "POST /booking/new" do
+  context "POST /listings/1" do
     it 'returns 200 OK' do
       # Assuming the post with id 1 exists.
       response = post('/login', email: 'name3@email.com', password: 'user')
-      response = post('/booking/new', check_in: '2022-05-03', check_out: '2022-05-04', confirmed: false, listing_id: 3, guest_id: 1)
+      response = post('/listings/1', check_in: '2022-05-03', check_out: '2022-05-04', confirmed: false)
 
       repo = BookingRepository.new
       bookings = repo.all
@@ -64,7 +64,7 @@ describe Application do
       expect(response.status).to eq(200)
       expect(bookings[-1].check_in).to eq '2022-05-03'
       expect(bookings[-1].check_out).to eq '2022-05-04'
-      expect(bookings[-1].listing_id).to eq 3
+      expect(bookings[-1].listing_id).to eq 1
       expect(bookings[-1].guest_id).to eq 3
     end
   end
@@ -149,14 +149,14 @@ describe Application do
 
       expect(response.status).to eq(302)
       # expect(response).to render_template(:index)
-      
+
     end
 
     # it 'directs the user to the index page' do
     #   response = post('/login', email: 'name3@email.com', password: 'password3')
 
     #   expect(response.status).to eq(200)
-  
+
 
     it 'displays 401 for invalid log in' do
       response = post('/login', email: 'name@email.com', password: 'password3')
