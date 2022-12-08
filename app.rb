@@ -153,16 +153,18 @@ class Application < Sinatra::Base
     return redirect ('/listings')
   end
 
-  get '/requests' do
+  get '/requests' do  
+    user_repo = UserRepository.new
+    user_id = user_repo.find_by_session_id(session[:session_id]).id
     booking_repo = BookingRepository.new
     listing_repo = ListingRepository.new
 
     # My requests
-    @requested_bookings = booking_repo.find_by_guest(1) #(session[:user_id])
+    @requested_bookings = booking_repo.find_by_guest(user_id)
   
 
     # Requests to approve
-    @requests_to_approve = booking_repo.find_by_owner_id(1) #(session[:user_id])
+    @requests_to_approve = booking_repo.find_by_owner_id(user_id)
 
     return erb(:requests_page)
   end
@@ -176,7 +178,7 @@ class Application < Sinatra::Base
     BookingRepository.reject(params[:booking_id].to_i)
     redirect('/requests')
   end
-  
+
   private
 
   # It doesn't check for listing_id or guest_id because when done properly the user will not input either.
