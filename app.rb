@@ -4,9 +4,9 @@ require_relative 'lib/database_connection'
 require_relative 'lib/listing_repository'
 require_relative 'lib/user_repository'
 require_relative 'lib/booking_repository'
-require 'bcrypt'
 require_relative 'lib/booking'
 require_relative 'lib/request'
+require 'bcrypt'
 
 # Need to take this out when merging and connect to just makersbnb
 ENV['ENV'] = 'test'
@@ -28,8 +28,10 @@ class Application < Sinatra::Base
   end
 
   get '/' do
-    return "#{session.id}"
-    # return erb(:index)
+    # return session[:user_id] 
+    
+    p session
+    return erb(:index)
   end
 
   get '/users' do
@@ -39,7 +41,7 @@ class Application < Sinatra::Base
     return erb(:user_all)
   end
 
-  get '/signup/new' do
+  get '/signup' do
 
     @user = User.new
     @user.username = params[:username]
@@ -78,7 +80,7 @@ class Application < Sinatra::Base
     unless user.nil?
       password = BCrypt::Password.new(user.password)
       if password == params[:password]
-        # session['user_id'] = user.id
+        #  session[:user_id] = user.id
         # puts "SESSION: #{session.to_s}"
         # this will store the session id in the DB using UPDATE query
         # UPDATE users SET session_id=$1 WHERE id=$2;
@@ -93,8 +95,8 @@ class Application < Sinatra::Base
   end
 
   def invalid_users_params?
-    return (params[:username] == nil || 
-      params[:email] == nil || 
+    return (params[:username] == nil ||
+      params[:email] == nil ||
       params[:password] == nil)
   end
 
@@ -115,25 +117,35 @@ class Application < Sinatra::Base
       status 400
       return 'You must have a check in and check out date'
     end
-
+    repo = BookingRepository.new
     new_booking = Booking.new
     new_booking.check_in = params[:check_in]
     new_booking.check_out = params[:check_out]
     new_booking.confirmed = false
     new_booking.listing_id = params[:listing_id]
     new_booking.guest_id = params[:guest_id]
+    # new_booking.guest_id = session[:session_id] #changed to session id from user_id
 
-    repo = BookingRepository.new
+    # user_repo = UserRepository.new
+    # user = user_repo.find_by_session_id(session[:session_id])
+    # new_booking.guest_id = user.id
+
     repo.create(new_booking)
 
     return erb(:requested_booking)
   end
-  
+
   get '/listings' do
     repo = ListingRepository.new
     @all_listings = repo.all
     return erb(:listings)
   end
+
+  get '/listings/:id' do
+    repo = ListingRepository.new
+    @listing = repo.find(params[:id])
+    return erb(:listing_id)
+end
 
   get '/listings/new' do
     return erb(:new_listings)
@@ -178,6 +190,15 @@ class Application < Sinatra::Base
     BookingRepository.reject(params[:booking_id].to_i)
     redirect('/requests')
   end
+
+  get '/logout' do
+    repo = UserRepository.new
+    user = repo.find_by_session_id(session['session_id'])
+    repo.update_session_id(user.id, nil)
+    redirect '/'
+  end
+
+
 
   private
 

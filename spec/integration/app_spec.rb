@@ -87,15 +87,15 @@ describe Application do
     end
   end
 
-  context 'GET /signup/new' do
+  context 'GET /signup' do
     it 'should return a sign-up form ' do
-    response = get('/signup/new')
+    response = get('/signup')
 
     expect(response.status).to eq(200)
-    expect(response.body).to include('<form method="POST" action="/signup">')
-    expect(response.body). to include('<input type="text" name="username" value=””><br />')
-    expect(response.body). to include(' <input type="text" name="email" value=””><br />')
-    expect(response.body). to include(' <input type="password" name="password"><br />')
+    expect(response.body).to match('<form method="POST" action="/signup".*>')
+    expect(response.body).to include('<input name="username" type="text" class="form-control" placeholder="Username">')
+    expect(response.body).to include('<input name="email" type="text" class="form-control" placeholder="Email">')
+    expect(response.body).to include('<input name="password" type="password" class="form-control" placeholder="Password">')
     end
   end
   context 'POST to /signup' do
@@ -136,8 +136,9 @@ describe Application do
       response = get('/login')
 
       expect(response.status).to eq(200)
-      expect(response.body).to match('<input type="text" name="email" placeholder="Email" />')
-      expect(response.body).to match('<input type="password" name="password" placeholder="Password" />')
+      expect(response.body).to match('<form action="/login" method="post".*>')
+      expect(response.body).to match('<input name="email" type="text" class="form-control" placeholder="Email">')
+      expect(response.body).to match('<input name="password" type="text" class="form-control" placeholder="Password">')
     end
   end
 
