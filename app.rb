@@ -27,9 +27,10 @@ class Application < Sinatra::Base
   end
 
   get '/' do
-    return session[:user_id] 
+    # return session[:user_id] 
     
-    # return erb(:index)
+    p session
+    return erb(:index)
   end
 
   get '/users' do
@@ -78,7 +79,7 @@ class Application < Sinatra::Base
     unless user.nil?
       password = BCrypt::Password.new(user.password)
       if password == params[:password]
-        session[:user_id] = user.id
+        #  session[:user_id] = user.id
         # puts "SESSION: #{session.to_s}"
         # this will store the session id in the DB using UPDATE query
         # UPDATE users SET session_id=$1 WHERE id=$2;
@@ -121,7 +122,11 @@ class Application < Sinatra::Base
     new_booking.check_out = params[:check_out]
     new_booking.confirmed = false
     new_booking.listing_id = params[:listing_id]
-    new_booking.guest_id = session[:user_id]
+    # new_booking.guest_id = session[:session_id] #changed to session id from user_id
+
+    user_repo = UserRepository.new
+    user = user_repo.find_by_session_id(session[:session_id])
+    new_booking.guest_id = user.id
 
     repo.create(new_booking)
 
@@ -150,6 +155,13 @@ class Application < Sinatra::Base
     repo = ListingRepository.new
     repo.create(new_listing)
     return redirect ('/listings')
+  end
+
+  get '/logout' do
+    repo = UserRepository.new
+    user = repo.find_by_session_id(session['session_id'])
+    repo.update_session_id(user.id, nil)
+    redirect '/'
   end
 
 
