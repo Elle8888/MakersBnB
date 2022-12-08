@@ -74,6 +74,13 @@ https://www.tooplate.com/view/2095-level
                                     <a class="nav-link" href="#top">Home <span class="sr-only">(current)</span></a>
                                   </li>
                                   <li class="nav-item">
+                                    <a class="nav-link" href="#">
+                                        <% unless @username.nil? %>
+                                            Welcome! <%= @username.username %>
+                                        <% end %>
+                                    </a>
+                                  </li>
+                                  <li class="nav-item">
                                     <a class="nav-link" href="./listings/new">My Listing</a>
                                   </li>
                                   <li class="nav-item">

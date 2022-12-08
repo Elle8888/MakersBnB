@@ -28,9 +28,8 @@ class Application < Sinatra::Base
   end
 
   get '/' do
-    # return session[:user_id]
-
-    p session
+    user_repo = UserRepository.new
+    @username = user_repo.find_by_session_id(session[:session_id])
     return erb(:index)
   end
 
