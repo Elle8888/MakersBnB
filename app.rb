@@ -26,8 +26,8 @@ class Application < Sinatra::Base
   end
 
   get '/' do
-    return "#{session.id}"
-    # return erb(:index)
+    # return "#{session.id}"
+    return erb(:index)
   end
 
   get '/users' do
@@ -37,7 +37,7 @@ class Application < Sinatra::Base
     return erb(:user_all)
   end
 
-  get '/signup/new' do
+  get '/signup' do
 
     @user = User.new
     @user.username = params[:username]
