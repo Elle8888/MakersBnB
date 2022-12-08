@@ -28,8 +28,8 @@ class Application < Sinatra::Base
   end
 
   get '/' do
-    # return session[:user_id] 
-    
+    # return session[:user_id]
+
     p session
     return erb(:index)
   end
@@ -108,35 +108,6 @@ class Application < Sinatra::Base
     return erb(:user_find)
   end
 
-  get '/booking/new' do
-    return erb(:create_booking)
-  end
-
-  post '/booking/new' do
-    if invalid_booking_params
-      status 400
-      return 'You must have a check in and check out date'
-    end
-    user_repo = UserRepository.new
-    user_id = user_repo.find_by_session_id(session[:session_id]).id
-    repo = BookingRepository.new
-    new_booking = Booking.new
-    new_booking.check_in = params[:check_in]
-    new_booking.check_out = params[:check_out]
-    new_booking.confirmed = 'Waiting'
-    new_booking.listing_id = params[:listing_id]
-    new_booking.guest_id = user_id
-    # new_booking.guest_id = session[:session_id] #changed to session id from user_id
-
-    # user_repo = UserRepository.new
-    # user = user_repo.find_by_session_id(session[:session_id])
-    # new_booking.guest_id = user.id
-
-    repo.create(new_booking)
-
-    return erb(:requested_booking)
-  end
-
   get '/listings' do
     repo = ListingRepository.new
     @all_listings = repo.all
@@ -153,6 +124,26 @@ class Application < Sinatra::Base
     return erb(:listing_id)
   end
 
+  post '/listings/:id' do
+    if invalid_booking_params
+      status 400
+      return 'You must have a check in and check out date'
+    end
+
+    user_repo = UserRepository.new
+    user_id = user_repo.find_by_session_id(session[:session_id]).id
+    repo = BookingRepository.new
+    new_booking = Booking.new
+    new_booking.check_in = params[:check_in]
+    new_booking.check_out = params[:check_out]
+    new_booking.confirmed = 'Waiting'
+    new_booking.listing_id = params[:id]
+    new_booking.guest_id = user_id
+    repo.create(new_booking)
+
+    return erb(:requested_booking)
+  end
+
   post '/listings/new' do
     new_listing = Listing.new
     new_listing.name = params[:name]
@@ -167,7 +158,7 @@ class Application < Sinatra::Base
     return redirect ('/listings')
   end
 
-  get '/requests' do  
+  get '/requests' do
     user_repo = UserRepository.new
     user_id = user_repo.find_by_session_id(session[:session_id]).id
     booking_repo = BookingRepository.new
@@ -175,7 +166,7 @@ class Application < Sinatra::Base
 
     # My requests
     @requested_bookings = booking_repo.find_by_guest(user_id)
-  
+
 
     # Requests to approve
     @requests_to_approve = booking_repo.find_by_owner_id(user_id)
