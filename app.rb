@@ -151,6 +151,16 @@ class Application < Sinatra::Base
     return redirect ('/listings')
   end
 
+  get '/requests' do
+    booking_repo = BookingRepository.new
+    listing_repo = ListingRepository.new
+
+    requested_bookings = repo.find_by_guest(1) #(session[:user_id])
+
+    bookings_to_approve = repo.find_by_owner(1) #(session[:user_id])
+
+    return erb(:requests_page)
+  end
 
   private
 

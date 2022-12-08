@@ -29,6 +29,18 @@ class BookingRepository
     return booking
   end
 
+  def find_by_guest(guest_id)
+    # Executes the SQL query:
+    sql = 'SELECT * FROM bookings WHERE guest_id = $1'
+    params = [guest_id]
+
+    results = DatabaseConnection.exec_params(sql,params)
+
+    bookings = format_single_result(results)
+    return bookings
+  end
+
+  end
   # Add more methods below for each operation you'd like to implement.
 
   def create(booking)
