@@ -4,8 +4,9 @@ require_relative 'lib/database_connection'
 require_relative 'lib/listing_repository'
 require_relative 'lib/user_repository'
 require_relative 'lib/booking_repository'
-require 'bcrypt'
 require_relative 'lib/booking'
+require_relative 'lib/request'
+require 'bcrypt'
 
 # Need to take this out when merging and connect to just makersbnb
 ENV['ENV'] = 'test'
@@ -164,12 +165,39 @@ end
     return redirect ('/listings')
   end
 
+  get '/requests' do  
+    user_repo = UserRepository.new
+    user_id = user_repo.find_by_session_id(session[:session_id]).id
+    booking_repo = BookingRepository.new
+    listing_repo = ListingRepository.new
+
+    # My requests
+    @requested_bookings = booking_repo.find_by_guest(user_id)
+  
+
+    # Requests to approve
+    @requests_to_approve = booking_repo.find_by_owner_id(user_id)
+
+    return erb(:requests_page)
+  end
+
+  post '/requests/approve' do
+    BookingRepository.approve(params[:booking_id].to_i)
+    redirect('/requests')
+  end
+
+  post '/requests/reject' do
+    BookingRepository.reject(params[:booking_id].to_i)
+    redirect('/requests')
+  end
+
   get '/logout' do
     repo = UserRepository.new
     user = repo.find_by_session_id(session['session_id'])
     repo.update_session_id(user.id, nil)
     redirect '/'
   end
+
 
 
   private

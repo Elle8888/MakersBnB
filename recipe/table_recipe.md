@@ -239,7 +239,7 @@ CREATE TABLE bookings (
   id SERIAL PRIMARY KEY,
   check_in date,
   check_out date,
-  confirmed boolean,
+  confirmed text,
   listing_id int,
   guest_id int,
 

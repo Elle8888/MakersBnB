@@ -1,0 +1,38 @@
+<html>
+  <body>
+    <h1>Requests</h1>
+    <div>
+      <h2>My requests</h2>
+      <% @requested_bookings.each do |request| %>
+        <p>
+          <%= request.name%>
+          <%= request.price%>
+          Check In: <%= request.check_in%>
+          Check Out: <%= request.check_out%>
+          Status: <%= request.confirmed%>
+        </p>
+      <% end %>
+    </div>
+
+    <div>
+      <h2>Requests to approve</h2>
+      <% @requests_to_approve.each do |request| %> 
+        <p>
+          <%= request.name%>
+          <%= request.price%>
+          Check In: <%= request.check_in%>
+          Check Out: <%= request.check_out%>
+          Status: <%= request.confirmed%>
+          <form action='/requests/approve' method='POST'>
+            <input type="hidden" name="booking_id" value=<%= request.id%>>
+            <input type='submit' value='Approve'>
+          </form>
+          <form action='/requests/reject' method='POST'>
+            <input type="hidden" name="booking_id" value=<%= request.id%>>
+            <input type='submit' value='Reject'>
+          </form>
+        </p>
+      <% end %>
+    </div>
+  </body>
+<html>

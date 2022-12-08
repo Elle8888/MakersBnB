@@ -163,4 +163,41 @@ describe Application do
       expect(response.status).to eq(401)
     end
   end
+
+  context 'GET /requests' do
+    it 'returns 200 OK' do
+      response = get('/requests')
+
+      expect(response.status).to eq (200)
+      expect(response.body).to include '<h1>Requests</h1>'
+      expect(response.body).to include 'Check In: 2022-01-01'
+      expect(response.body).to include '<h2>Requests to approve</h2>'
+    end
+  end
+
+  context 'POST /requests/approve' do
+    it "updates the confirmed column with approve" do
+      repo = BookingRepository.new
+
+      expect(repo.find(1).confirmed).to eq 'Waiting'
+
+      response = post('/requests/approve', booking_id: 1)
+
+      expect(response.status).to eq (302)
+      expect(repo.find(1).confirmed).to eq 'Approved'
+    end
+  end
+
+  context 'POST /requests/reject' do
+    it "updates the confirmed column with reject" do
+      repo = BookingRepository.new
+
+      expect(repo.find(1).confirmed).to eq 'Waiting'
+
+      response = post('/requests/reject', booking_id: 1)
+
+      expect(response.status).to eq (302)
+      expect(repo.find(1).confirmed).to eq 'Rejected'
+    end
+  end
 end
