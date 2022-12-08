@@ -10,28 +10,22 @@
         <link rel="stylesheet" href="/style.css" >
     </head>
     <body>
-        <p>This is the homepage.</p>
+        <h1><%= @listing.name%></h1>
 
-        <h1>All listing</h1>
-
-        <% @all_listings.each do |listing| %>
           <div>
             <hr>
             <h5>
-              <a href="/listings/<%=listing.id%>">Name: <%=listing.name%></a>
+              Description: <%= @listing.description %>
               <br>
-              Description: <%= listing.description %>
+              Price: <%= @listing.price %>
               <br>
-              Price: <%= listing.price %>
+              User_id: <%= @listing.user_id %>
               <br>
-              User_id: <%= listing.user_id %>
+              Available_from: <%= @listing.available_from %>
               <br>
-              Available_from: <%= listing.available_from %>
-              <br>
-              Available to: <%= listing.available_to %>
+              Available to: <%= @listing.available_to %>
             </h5>
           </div>
-          <% end %>
 
 
     </body>

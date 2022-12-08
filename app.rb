@@ -91,8 +91,8 @@ class Application < Sinatra::Base
   end
 
   def invalid_users_params?
-    return (params[:username] == nil || 
-      params[:email] == nil || 
+    return (params[:username] == nil ||
+      params[:email] == nil ||
       params[:password] == nil)
   end
 
@@ -126,12 +126,18 @@ class Application < Sinatra::Base
 
     return erb(:requested_booking)
   end
-  
+
   get '/listings' do
     repo = ListingRepository.new
     @all_listings = repo.all
     return erb(:listings)
   end
+
+  get '/listings/:id' do
+    repo = ListingRepository.new
+    @listing = repo.find(params[:id])
+    return erb(:listing_id)
+end
 
   get '/listings/new' do
     return erb(:new_listings)
