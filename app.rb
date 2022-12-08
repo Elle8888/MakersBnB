@@ -29,8 +29,10 @@ class Application < Sinatra::Base
 
   get '/' do
     # return session[:user_id]
-
     p session
+    @logged_in = logged_in?
+    p @logged_in
+    p session[:user_id]
     return erb(:index)
   end
 
@@ -198,6 +200,13 @@ class Application < Sinatra::Base
   # It doesn't check for listing_id or guest_id because when done properly the user will not input either.
   def invalid_booking_params
     return (params[:check_in] == "" || params[:check_out] == "")
+  end
+
+  def logged_in?
+    repo = UserRepository.new
+    user_id = repo.find_by_session_id(session['session_id'])
+    return false if user_id == nil
+    return true if user_id != nil
   end
 
 end
