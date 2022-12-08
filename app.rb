@@ -117,13 +117,15 @@ class Application < Sinatra::Base
       status 400
       return 'You must have a check in and check out date'
     end
+    user_repo = UserRepository.new
+    user_id = user_repo.find_by_session_id(session[:session_id]).id
     repo = BookingRepository.new
     new_booking = Booking.new
     new_booking.check_in = params[:check_in]
     new_booking.check_out = params[:check_out]
-    new_booking.confirmed = false
+    new_booking.confirmed = 'Waiting'
     new_booking.listing_id = params[:listing_id]
-    new_booking.guest_id = params[:guest_id]
+    new_booking.guest_id = user_id
     # new_booking.guest_id = session[:session_id] #changed to session id from user_id
 
     # user_repo = UserRepository.new
@@ -141,14 +143,14 @@ class Application < Sinatra::Base
     return erb(:listings)
   end
 
+  get '/listings/new' do
+    return erb(:new_listings)
+  end
+
   get '/listings/:id' do
     repo = ListingRepository.new
     @listing = repo.find(params[:id])
     return erb(:listing_id)
-end
-
-  get '/listings/new' do
-    return erb(:new_listings)
   end
 
   post '/listings/new' do

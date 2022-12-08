@@ -49,14 +49,11 @@ class BookingRepository
       sql = 'SELECT bookings.id, bookings.check_in, bookings.check_out, bookings.confirmed, bookings.guest_id, listings.id AS listing_id, listings.name, listings.description, listings.price, listings.user_id FROM bookings JOIN listings ON bookings.listing_id = listings.id WHERE listings.user_id = $1;'
       params = [id]
       result_set = DatabaseConnection.exec_params(sql,params)
-      if result_set.ntuples > 1
+      if result_set.ntuples >= 1
         result_set.each do |result|
           request = format_single_request(result)
           requests << request
         end
-      else
-        request = format_single_request(result_set[0])
-        requests << request
       end
     return requests
   end

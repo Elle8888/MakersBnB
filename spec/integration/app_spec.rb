@@ -55,6 +55,7 @@ describe Application do
   context "POST /booking/new" do
     it 'returns 200 OK' do
       # Assuming the post with id 1 exists.
+      response = post('/login', email: 'name3@email.com', password: 'user')
       response = post('/booking/new', check_in: '2022-05-03', check_out: '2022-05-04', confirmed: false, listing_id: 3, guest_id: 1)
 
       repo = BookingRepository.new
@@ -64,7 +65,7 @@ describe Application do
       expect(bookings[-1].check_in).to eq '2022-05-03'
       expect(bookings[-1].check_out).to eq '2022-05-04'
       expect(bookings[-1].listing_id).to eq 3
-      expect(bookings[-1].guest_id).to eq 1
+      expect(bookings[-1].guest_id).to eq 3
     end
   end
 
@@ -166,11 +167,11 @@ describe Application do
 
   context 'GET /requests' do
     it 'returns 200 OK' do
+      response = post('/login', email: 'name3@email.com', password: 'user')
       response = get('/requests')
 
       expect(response.status).to eq (200)
       expect(response.body).to include '<h1>Requests</h1>'
-      expect(response.body).to include 'Check In: 2022-01-01'
       expect(response.body).to include '<h2>Requests to approve</h2>'
     end
   end
