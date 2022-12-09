@@ -27,35 +27,27 @@
             </h5>
           </div>
 
+          <hr>
           <div>
-          <hr>
-          <h5>
-          <div>    
-            <% if @bookings.nil? %>
-    <p>Full availability</p>
-  <% else %>
-     <% @bookings.each do |booking| %>
-    <p>
-    Booked from: 
-      <%= booking.check_in %>
-    Booked to: 
-      <%= booking.check_out %>
-    </p>
-  <% end %>
-  <% end %>
-</div>
-     </h5>
-     </div>
-
-
-        
-
-
-
+            <h5>
+            <div>    
+              <% if @bookings.nil? %>
+                <p>Full availability</p>
+              <% else %>
+                <% @bookings.each do |booking| %>
+                  <p>
+                  Booked from: 
+                    <%= booking.check_in %>
+                  Booked to: 
+                    <%= booking.check_out %>
+                  </p>
+                <% end %>
+              <% end %>
+            </div>
+            </h5>
+          </div>
 
           <hr>
-
-
 
           <div class="content">
             <h1>Make a booking!</h1>
