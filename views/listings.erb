@@ -37,11 +37,11 @@ https://www.tooplate.com/view/2095-level
                 <!-- Top Navbar -->
                 <div class="container">
                     <div class="row">
-                        
+
                         <nav class="navbar navbar-expand-lg narbar-light">
                             <a class="navbar-brand mr-auto" href="#">
                                 <img src="style/img/makersbnb.png" width="110" height="110" alt="Site logo">
-                            
+
                             </a>
                             <button type="button" id="nav-toggle" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#mainNav" aria-expanded="false" aria-label="Toggle navigation">
                                 <span class="navbar-toggler-icon"></span>
@@ -51,15 +51,36 @@ https://www.tooplate.com/view/2095-level
                                   <li class="nav-item">
                                     <a class="nav-link" href="./">Home <span class="sr-only">(current)</span></a>
                                   </li>
+                                  <% if !@logged_in %>
+
+                                  <li class="nav-item">
+                                   <a class="nav-link" href="/signup">Register</a>
+                                 </li>
+                                 <li class="nav-item">
+                                   <a class="nav-link" href="/login">Log in</a>
+                                 </li>
+
+                                  <% elsif @logged_in %>
+                                  <li class="nav-item">
+                                    <a class="nav-link" href="/listings">Explore</a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" href="#">My Requests</a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" href="/logout">Logout</a>
+                                  </li>
+                                  <% end %>
+
                                 </ul>
-                            </div>                            
-                        </nav>            
+                            </div>
+                        </nav>
                     </div>
                 </div>
             </div>
         </div>
 
-      
+
           <div>
             <h1>All listing</h1>
 
@@ -87,9 +108,9 @@ https://www.tooplate.com/view/2095-level
                         <div class="col text-center">
                             <h2 class="tm-section-title">MAKERSBNB</h2>
                             <p class="tm-color-white tm-section-subtitle">Commit and Travel!</p>
-                        </div>                
+                        </div>
                     </div>
-                </div>        
-            </div>  
+                </div>
+            </div>
     </body>
 </html>
