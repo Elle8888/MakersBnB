@@ -114,12 +114,12 @@
                   <form action="/listings/<%= @listing.id %>" method="POST" class="tm-search-form tm-section-pad-2">
                     <div class="form-row tm-search-form-row">
                       <div class="ml-auto mr-auto form-group tm-form-element tm-form-element-100">
-                        Check In <input type="date" name="check_in" placeholder="Check In" class="form-control">
+                        Check In <input type="date" name="check_in" min=<%= @listing.available_from %> placeholder="Check In" class="form-control">
                       </div>
                     </div>
                     <div class="form-row tm-search-form-row">
                       <div class="ml-auto mr-auto form-group tm-form-element tm-form-element-100">
-                        Check out <input type="date" name="check_out" placeholder="Check Out" class="form-control">
+                        Check out <input type="date" name="check_out" max=<%= @listing.available_to%> placeholder="Check Out" class="form-control">
                       </div>
                     </div>
                     <div class="form-row tm-search-form-row">

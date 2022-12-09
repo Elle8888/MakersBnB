@@ -43,6 +43,7 @@ describe Application do
   context "GET /listings/1" do
     it 'returns 200 OK' do
       # Assuming the post with id 1 exists.
+      response = post('/login', email: 'name3@email.com', password: 'user')
       response = get('/listings/1')
 
 
