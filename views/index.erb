@@ -78,20 +78,30 @@ https://www.tooplate.com/view/2095-level
                                     </a>
                                   </li>
                                   <li class="nav-item">
-                                    <a class="nav-link" href="#top">Home <span class="sr-only">(current)</span></a>
+                                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                                  </li>
+                                  <% if !@logged_in %>
+
+                                  <li class="nav-item">
+                                   <a class="nav-link" href="/signup">Register</a>
+                                 </li>
+                                 <li class="nav-item">
+                                   <a class="nav-link" href="/login">Log in</a>
+                                 </li>
+
+                                  <% elsif @logged_in %>
+                                  <li class="nav-item">
+                                    <a class="nav-link" href="/listings">Explore</a>
                                   </li>
                                   <li class="nav-item">
-                                    <a class="nav-link" href="#">My Listing</a>
+                                    <a class="nav-link" href="#">My Requests</a>
                                   </li>
                                   <li class="nav-item">
-                                    <a class="nav-link" href="./requests">My Request</a>
+                                    <a class="nav-link" href="/logout">Logout</a>
                                   </li>
-                                  <li class="nav-item">
-                                    <a class="nav-link" href="./login">Log in</a>
-                                  </li>
-                                    <li class="nav-item">
-                                    <a class="nav-link" href="./logout">Logout</a>
-                                  </li>
+                                  <% end %>
+                                  
+          
                                 </ul>
                             </div>                            
                         </nav>            
