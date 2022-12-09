@@ -29,6 +29,12 @@ https://www.tooplate.com/view/2095-level
           <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
           <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
           <![endif]-->
+<style>
+h1 {text-align: left 100;}
+p {text-align: left 100;}
+div {text-align: left 100;}
+.center {margin: auto;}
+</style>
 </head>
     </head>
     <body><div class="tm-main-content" id="top">
@@ -51,6 +57,7 @@ https://www.tooplate.com/view/2095-level
                                   <li class="nav-item">
                                     <a class="nav-link" href="./">Home <span class="sr-only">(current)</span></a>
                                   </li>
+
                                   <% if !@logged_in %>
 
                                   <li class="nav-item">
@@ -71,7 +78,6 @@ https://www.tooplate.com/view/2095-level
                                     <a class="nav-link" href="/logout">Logout</a>
                                   </li>
                                   <% end %>
-
                                 </ul>
                             </div>
                         </nav>
@@ -79,7 +85,8 @@ https://www.tooplate.com/view/2095-level
                 </div>
             </div>
         </div>
-
+        
+       <div class="container tm-pt-5 tm-pb-4">
 
           <div>
             <h1>All listing</h1>
@@ -99,9 +106,9 @@ https://www.tooplate.com/view/2095-level
               <br>
               Available to: <%= listing.available_to %>
             </h5>
+            <% end %>
           </div>
-          <% end %>
-
+        </div>
             <div class="tm-section-2">
                 <div class="container">
                     <div class="row">

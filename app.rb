@@ -28,18 +28,15 @@ class Application < Sinatra::Base
   end
 
   get '/' do
-    # return session[:user_id]
-    p session
     @logged_in = logged_in?
-    p @logged_in
-    p session[:user_id]
+    user_repo = UserRepository.new
+    @username = user_repo.find_by_session_id(session[:session_id])
     return erb(:index)
   end
 
   get '/users' do
     repo = UserRepository.new
     @users = repo.all
-
     return erb(:user_all)
   end
 
