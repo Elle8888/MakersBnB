@@ -76,7 +76,6 @@ class UserRepository
     return user
   end
 
-
   def update_session_id(user_id, session_id)
     sql = 'UPDATE users SET session_id=$1 WHERE id=$2'
     sql_params = [session_id, user_id]
