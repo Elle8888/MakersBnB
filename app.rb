@@ -150,6 +150,8 @@ class Application < Sinatra::Base
 
     repo = ListingRepository.new
     @listing = repo.find(params[:id])
+    repo = BookingRepository.new
+    @bookings = repo.find_by_listing_id(params[:id])
     return erb(:listing_id)
   end
 
