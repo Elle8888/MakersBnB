@@ -96,7 +96,7 @@ describe Application do
     expect(response.status).to eq(200)
     expect(response.body).to match('<form method="POST" action="/signup".*>')
     expect(response.body).to include('<input name="username" type="text" class="form-control" placeholder="Username">')
-    expect(response.body).to include('<input name="email" type="text" class="form-control" placeholder="Email">')
+    expect(response.body).to include('<input name="email" type="text" class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9]+\.[a-z]{2,}$" placeholder="Email">')
     expect(response.body).to include('<input name="password" type="password" class="form-control" placeholder="Password">')
     end
   end
