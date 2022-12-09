@@ -97,7 +97,7 @@ describe Application do
     expect(response.body).to match('<form method="POST" action="/signup".*>')
     expect(response.body).to include('<input name="username" type="text" class="form-control" placeholder="Username">')
     expect(response.body).to include('<input name="email" type="text" class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9]+\.[a-z]{2,}$" placeholder="Email">')
-    expect(response.body).to include('<input name="password" type="password" class="form-control" placeholder="Password">')
+    expect(response.body).to include('<input name="password" type="password" class="form-control" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" placeholder="Password')
     end
   end
   context 'POST to /signup' do
@@ -140,7 +140,7 @@ describe Application do
       expect(response.status).to eq(200)
       expect(response.body).to match('<form action="/login" method="post".*>')
       expect(response.body).to match('<input name="email" type="text" class="form-control" placeholder="Email">')
-      expect(response.body).to match('<input name="password" type="text" class="form-control" placeholder="Password">')
+      expect(response.body).to match('<input name="password" type="password" class="form-control" placeholder="Password">')
     end
   end
 

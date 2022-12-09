@@ -32,7 +32,7 @@ https://www.tooplate.com/view/2095-level
           <![endif]-->
 </head>
 <style>
-h1 {text-align: center;}
+h3 {text-align: center;}
 p {text-align: center;}
 div {text-align: center;}
 .center {margin: auto;}
@@ -71,14 +71,14 @@ div {text-align: center;}
                     <div class="container ie-h-align-center-fix">
                         <div class="row">
                             <div class="col-xs-12 ml-auto mr-auto ie-container-width-fix">
-                              <h1>Register</h1>
+                            
                                     <% if @error %>
                                       <div class="error">Login failed.</div>
                                     <% end %>
                                 <form method="POST" action="/signup" class="tm-search-form tm-section-pad-2">
                                         <div class="form-row tm-search-form-row">
                                             <div class="ml-auto mr-auto form-group tm-form-element tm-form-element-100">
-                                                <i class="fa fa-envelope fa-2x tm-form-element-icon"></i>
+                                                <i class="fa fa-map-marker fa-2x tm-form-element-icon"></i>
                                                  <input name="username" type="text" class="form-control" placeholder="Username">
                                              </div>
                                         </div>
@@ -93,7 +93,7 @@ div {text-align: center;}
                                         <div class="form-row tm-search-form-row">
                                             <div class="ml-auto mr-auto form-group tm-form-element tm-form-element-100">
                                                 <i class="fa fa-key fa-2x tm-form-element-icon"></i>
-                                                <input name="password" type="password" class="form-control" placeholder="Password">
+                                                <input name="password" type="password" class="form-control" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" placeholder="Password">
                                             </div>
                                         </div>
 
@@ -103,10 +103,13 @@ div {text-align: center;}
                                             </div>
                                         </div>
 
-                                      <div class="form-row clearfix pl-2 pr-2 tm-fx-col-xs">
-                                          <p class="tm-margin-b-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                          <a href="#" class="ie-10-ml-auto ml-auto mt-1 tm-font-semibold tm-color-primary">Need Help?</a>
-                                      </div>
+                                        <div id="message">
+                                            <h3>Password must contain the following:</h3>
+                                                <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
+                                                <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
+                                                <p id="number" class="invalid">A <b>number</b></p>
+                                                <p id="length" class="invalid">Minimum <b>8 characters</b></p>
+                                        </div>       
                                  </form>
                             </div>
                          </div>
