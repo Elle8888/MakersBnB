@@ -110,7 +110,7 @@ class UserRepository
       return user
   end
 
-  def find_by_email
+  def find_by_email(email)
     sql = 'SELECT id, username, email, password FROM users WHERE (email = $1);'
     sql_params = [email]
     result_set = DatabaseConnection.exec_params(sql, sql_params)
