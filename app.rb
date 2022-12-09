@@ -57,14 +57,21 @@ class Application < Sinatra::Base
     end
 
     repo = UserRepository.new
-    new_user = User.new
-    new_user.username = params[:username]
-    new_user.email = params[:email]
-    new_user.password = params[:password]
+    if repo.find_by_name(params[:username]) == nil
+      if repo.find_by_email(params[:email]) == nil
 
-    repo.create(new_user)
+        new_user = User.new
+        new_user.username = params[:username]
+        new_user.email = params[:email]
+        new_user.password = params[:password]
 
-    redirect '/login'
+        repo.create(new_user)
+
+        redirect '/login'
+      end
+    end
+
+    redirect '/signup'
   end
 
   get '/login' do
