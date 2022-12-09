@@ -75,9 +75,9 @@ class Application < Sinatra::Base
 
     repo = UserRepository.new
     user = repo.find_by_values(params[:email])
-
     unless user.nil?
       password = BCrypt::Password.new(user.password)
+      
       if password == params[:password]
         #  session[:user_id] = user.id
         # puts "SESSION: #{session.to_s}"
@@ -119,6 +119,20 @@ class Application < Sinatra::Base
     return erb(:new_listings)
   end
 
+  post '/listings/new' do
+    new_listing = Listing.new
+    new_listing.name = params[:name]
+    new_listing.description = params[:description]
+    new_listing.price = params[:price]
+    new_listing.user_id = params[:user_id]
+    new_listing.available_from = params[:available_from]
+    new_listing.available_to = params[:available_to]
+
+    repo = ListingRepository.new
+    repo.create(new_listing)
+    return redirect ('/listings')
+  end
+
   get '/listings/:id' do
     @logged_in = logged_in?
     repo = ListingRepository.new
@@ -144,20 +158,6 @@ class Application < Sinatra::Base
     repo.create(new_booking)
 
     return erb(:requested_booking)
-  end
-
-  post '/listings/new' do
-    new_listing = Listing.new
-    new_listing.name = params[:name]
-    new_listing.description = params[:description]
-    new_listing.price = params[:price]
-    new_listing.user_id = params[:user_id]
-    new_listing.available_from = params[:available_from]
-    new_listing.available_to = params[:available_to]
-
-    repo = ListingRepository.new
-    repo.create(new_listing)
-    return redirect ('/listings')
   end
 
   get '/requests' do
