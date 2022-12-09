@@ -36,7 +36,7 @@ describe Application do
       response = get('/confirm')
 
       expect(response.status).to eq(200)
-      expectexpect(response.body).to include('<h1>Your request is confirmed :) </h1>'))
+      expect(response.body).to include('<h1>Your request is confirmed :) </h1>')
     end
   end
 

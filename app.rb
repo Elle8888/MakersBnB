@@ -195,7 +195,9 @@ class Application < Sinatra::Base
     redirect '/'
   end
 
-
+  get '/confirm' do
+    return erb(:confirm)
+  end
 
   private
 
