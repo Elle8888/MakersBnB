@@ -35,13 +35,13 @@ class Application < Sinatra::Base
   end
 
   get '/users' do
+    @logged_in = logged_in?
     repo = UserRepository.new
     @users = repo.all
     return erb(:user_all)
   end
 
   get '/signup' do
-
     @user = User.new
     @user.username = params[:username]
     @user.email = params[:email]
@@ -108,16 +108,19 @@ class Application < Sinatra::Base
   end
 
   get '/listings' do
+    @logged_in = logged_in?
     repo = ListingRepository.new
     @all_listings = repo.all
     return erb(:listings)
   end
 
   get '/listings/new' do
+    @logged_in = logged_in?
     return erb(:new_listings)
   end
 
   get '/listings/:id' do
+    @logged_in = logged_in?
     repo = ListingRepository.new
     @listing = repo.find(params[:id])
     return erb(:listing_id)
@@ -158,6 +161,7 @@ class Application < Sinatra::Base
   end
 
   get '/requests' do
+    @logged_in = logged_in?
     user_repo = UserRepository.new
     user_id = user_repo.find_by_session_id(session[:session_id]).id
     booking_repo = BookingRepository.new
@@ -184,6 +188,7 @@ class Application < Sinatra::Base
   end
 
   get '/logout' do
+    @logged_in = logged_in?
     repo = UserRepository.new
     user = repo.find_by_session_id(session['session_id'])
     repo.update_session_id(user.id, nil)

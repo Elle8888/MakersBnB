@@ -1,97 +1,80 @@
 <!DOCTYPE html>
 <html>
+  <head>
     <head>
-       <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>Level HTML Template by Tooplate</title>
-<!--
-
-Tooplate 2095 Level
-
-https://www.tooplate.com/view/2095-level
-
--->
-    <!-- load stylesheets -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">  <!-- Google web font "Open Sans" -->
-    <link rel="stylesheet" href="style/font-awesome-4.7.0/css/font-awesome.min.css">                <!-- Font Awesome -->
-    <link rel="stylesheet" href="style/css/bootstrap.min.css">                                      <!-- Bootstrap style -->
-    <link rel="stylesheet" type="style/text/css" href="style/slick/slick.css"/>
-    <link rel="stylesheet" type="style/text/css" href="style/slick/slick-theme.css"/>
-    <link rel="stylesheet" type="style/text/css" href="style/css/datepicker.css"/>
-    <link rel="stylesheet" href="style/css/tooplate-style.css">                                   <!-- Templatemo style -->
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
-          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-          <![endif]-->
-<style>
-h1 {text-align: left 100;}
-p {text-align: left 100;}
-div {text-align: left 100;}
-.center {margin: auto;}
-</style>
-</head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>Explore</title>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
+      <link rel="stylesheet" href="style/font-awesome-4.7.0/css/font-awesome.min.css">
+      <link rel="stylesheet" href="style/css/bootstrap.min.css">
+      <link rel="stylesheet" type="style/text/css" href="style/slick/slick.css"/>
+      <link rel="stylesheet" type="style/text/css" href="style/slick/slick-theme.css"/>
+      <link rel="stylesheet" type="style/text/css" href="style/css/datepicker.css"/>
+      <link rel="stylesheet" href="style/css/tooplate-style.css">
+      <style>
+        h1 {text-align: left 100;}
+        p {text-align: left 100;}
+        div {text-align: left 100;}
+        .center {margin: auto;}
+      </style>
     </head>
-    <body><div class="tm-main-content" id="top">
-        <div class="tm-top-bar-bg"></div>
-            <div class="tm-top-bar" id="tm-top-bar">
-                <!-- Top Navbar -->
-                <div class="container">
-                    <div class="row">
-
-                        <nav class="navbar navbar-expand-lg narbar-light">
-                            <a class="navbar-brand mr-auto" href="#">
-                                <img src="style/img/makersbnb.png" width="110" height="110" alt="Site logo">
-
-                            </a>
-                            <button type="button" id="nav-toggle" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#mainNav" aria-expanded="false" aria-label="Toggle navigation">
-                                <span class="navbar-toggler-icon"></span>
-                            </button>
-                            <div id="mainNav" class="collapse navbar-collapse tm-bg-white">
-                                <ul class="navbar-nav ml-auto">
-                                  <li class="nav-item">
-                                    <a class="nav-link" href="./">Home <span class="sr-only">(current)</span></a>
-                                  </li>
-
-                                  <% if !@logged_in %>
-
-                                  <li class="nav-item">
-                                   <a class="nav-link" href="/signup">Register</a>
-                                 </li>
-                                 <li class="nav-item">
-                                   <a class="nav-link" href="/login">Log in</a>
-                                 </li>
-
-                                  <% elsif @logged_in %>
-                                  <li class="nav-item">
-                                    <a class="nav-link" href="/listings">Explore</a>
-                                  </li>
-                                  <li class="nav-item">
-                                    <a class="nav-link" href="#">My Requests</a>
-                                  </li>
-                                  <li class="nav-item">
-                                    <a class="nav-link" href="/logout">Logout</a>
-                                  </li>
-                                  <% end %>
-                                </ul>
-                            </div>
-                        </nav>
-                    </div>
-                </div>
-            </div>
+  </head>
+  <body>
+    <div class="tm-main-content" id="top">
+      <div class="tm-top-bar-bg"></div>
+      <div class="tm-top-bar" id="tm-top-bar">
+        <!-- Top Navbar -->
+        <div class="container">
+          <div class="row">
+            <nav class="navbar navbar-expand-lg narbar-light">
+              <a class="navbar-brand mr-auto" href="#">
+                <img src="style/img/makersbnb.png" width="110" height="110" alt="Site logo">
+              </a>
+              <button type="button" id="nav-toggle" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div id="mainNav" class="collapse navbar-collapse tm-bg-white">
+                <ul class="navbar-nav ml-auto">
+                  <li class="nav-item">
+                    <a class="nav-link">
+                      <% unless @username.nil? %>
+                        Welcome! <%= @username.username %>
+                      <% end %>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                  </li>
+                  <% if !@logged_in %>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/signup">Register</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/login">Log in</a>
+                    </li>
+                  <% elsif @logged_in %>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/listings">Explore</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/requests">My Requests</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/logout">Logout</a>
+                    </li>
+                  <% end %>
+                </ul>
+              </div>
+            </nav>
+          </div>
         </div>
-        
-       <div class="container tm-pt-5 tm-pb-4">
-
-          <div>
-            <h1>All listing</h1>
-
-            <% @all_listings.each do |listing| %>
+      </div>
+      <div class="container tm-pt-5 tm-pb-4">
+        <div>
+          <h1>All listing</h1>
+          <% @all_listings.each do |listing| %>
             <hr>
             <h5>
               <a href="/listings/<%=listing.id%>">Name: <%=listing.name%></a>
@@ -106,18 +89,18 @@ div {text-align: left 100;}
               <br>
               Available to: <%= listing.available_to %>
             </h5>
-            <% end %>
+          <% end %>
+        </div>
+      </div>
+      <div class="tm-section-2">
+        <div class="container">
+          <div class="row">
+            <div class="col text-center">
+              <h2 class="tm-section-title">MAKERSBNB</h2>
+              <p class="tm-color-white tm-section-subtitle">Commit and Travel!</p>
+            </div>
           </div>
         </div>
-            <div class="tm-section-2">
-                <div class="container">
-                    <div class="row">
-                        <div class="col text-center">
-                            <h2 class="tm-section-title">MAKERSBNB</h2>
-                            <p class="tm-color-white tm-section-subtitle">Commit and Travel!</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      </div>
     </body>
-</html>
+  </html>
