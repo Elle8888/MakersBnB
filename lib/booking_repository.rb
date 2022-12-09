@@ -31,6 +31,20 @@ class BookingRepository
     return booking
   end
 
+  def find_by_listing_id(listing_id)
+    sql = 'SELECT * FROM bookings WHERE listing_id = $1'
+    params = [listing_id]
+    result_set = DatabaseConnection.exec_params(sql, params)
+    bookings = []
+    if result_set.ntuples >= 1
+      result_set.each do |result|
+        booking = format_single_booking(result)
+        bookings << booking
+      end
+      return bookings
+    end
+  end
+
   def find_by_guest(guest_id)
     # Executes the SQL query:
     sql = 'SELECT bookings.id, bookings.check_in, bookings.check_out, bookings.confirmed, bookings.guest_id, listings.id AS listing_id, listings.name, listings.description, listings.price, listings.user_id FROM bookings JOIN listings ON bookings.listing_id = listings.id WHERE bookings.guest_id = $1;'

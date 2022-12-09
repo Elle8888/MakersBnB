@@ -27,8 +27,34 @@
             </h5>
           </div>
 
+          <div>
+          <hr>
+          <h5>
+          <div>    
+            <% if @bookings.nil? %>
+    <p>Full availability</p>
+  <% else %>
+     <% @bookings.each do |booking| %>
+    <p>
+    Booked from: 
+      <%= booking.check_in %>
+    Booked to: 
+      <%= booking.check_out %>
+    </p>
+  <% end %>
+  <% end %>
+</div>
+     </h5>
+     </div>
+
+
+        
+
+
+
 
           <hr>
+
 
 
           <div class="content">
@@ -36,12 +62,12 @@
             <form action="/listings/<%= @listing.id %>" method="POST" class="tm-search-form tm-section-pad-2">
               <div style="display:inline" class="form-group tm-form-element tm-form-element-100">
                 Check In:
-                <input type="date" name="check_in" placeholder="Check In" class="form-control">
+                <input type="date" name="check_in" placeholder="Check In" class="form-control" min=<%= @listing.available_from %>>
               </div></br>
 
               <div style="display:inline"   class="form-group tm-form-element tm-form-element-100">
               Check Out:
-                <input type="date" name="check_out" placeholder="Check Out" class="form-control">
+                <input type="date" name="check_out" placeholder="Check Out" class="form-control" max=<%= @listing.available_to %>>
               </div></br>
 
 
