@@ -1,17 +1,77 @@
-<!DOCTYPE html>
-<html>
+<html lang="en">
+  <!DOCTYPE html>
+  <html lang="en">
     <head>
-        <title>MakersBnB</title>
-
-        <!--
-            Head to https://github.com/makersacademy/web-applications/blob/main/pills/loading_css_or_static_files.md
-            If you're wondering how the CSS file below is being loaded.
-        -->
-        <link rel="stylesheet" href="/style.css" >
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title><%= @listing.name%></title>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
+      <link rel="stylesheet" href="../style/font-awesome-4.7.0/css/font-awesome.min.css">
+      <link rel="stylesheet" href="../style/css/bootstrap.min.css">
+      <link rel="stylesheet" type="text/css" href="../style/slick/slick.css"/>
+      <link rel="stylesheet" type="text/css" href="../style/slick/slick-theme.css"/>
+      <link rel="stylesheet" type="text/css" href="../style/css/datepicker.css"/>
+      <link rel="stylesheet" href="../style/css/tooplate-style.css">
     </head>
+    <style>
+      h1 {text-align: center;}
+      p {text-align: center;}
+      div {text-align: center;}
+      .center {margin: auto;}
+    </style>
     <body>
-        <h1><%= @listing.name%></h1>
-
+      <div class="tm-main-content" id="top">
+        <div class="tm-top-bar-bg"></div>
+        <div class="tm-top-bar" id="tm-top-bar">
+          <!-- Top Navbar -->
+          <div class="container">
+            <div class="row">
+              <nav class="navbar navbar-expand-lg narbar-light">
+                <a class="navbar-brand mr-auto" href="#">
+                  <img src="../style/img/makersbnb.png" width="110" height="110" alt="Site logo">
+                </a>
+                <button type="button" id="nav-toggle" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+                <div id="mainNav" class="collapse navbar-collapse tm-bg-white">
+                  <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                      <a class="nav-link">
+                        <% unless @username.nil? %>
+                          Welcome! <%= @username.username %>
+                        <% end %>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <% if !@logged_in %>
+                      <li class="nav-item">
+                        <a class="nav-link" href="/signup">Register</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="/login">Log in</a>
+                      </li>
+                    <% elsif @logged_in %>
+                      <li class="nav-item">
+                        <a class="nav-link" href="/listings">Explore</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="/requests">My Requests</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                      </li>
+                    <% end %>
+                  </ul>
+                </div>
+              </nav>
+            </div>
+          </div>
+        </div>
+        <div class="container tm-pt-5 tm-pb-4">
+          <h1><%= @listing.name%></h1>
           <div>
             <hr>
             <h5>
@@ -26,7 +86,7 @@
               Available to: <%= @listing.available_to %>
             </h5>
           </div>
-
+        </div>
           <hr>
           <div>
             <h5>
@@ -46,34 +106,42 @@
             </div>
             </h5>
           </div>
-
-          <hr>
-
-          <div class="content">
-            <h1>Make a booking!</h1>
-            <form action="/listings/<%= @listing.id %>" method="POST" class="tm-search-form tm-section-pad-2">
-              <div style="display:inline" class="form-group tm-form-element tm-form-element-100">
-                Check In:
-                <input type="date" name="check_in" placeholder="Check In" class="form-control" min=<%= @listing.available_from %>>
-              </div></br>
-
-              <div style="display:inline"   class="form-group tm-form-element tm-form-element-100">
-              Check Out:
-                <input type="date" name="check_out" placeholder="Check Out" class="form-control" max=<%= @listing.available_to %>>
-              </div></br>
-
-
-      <%#
-              <div style="display:inline" class="form-group tm-form-element tm-form-element-100">
-                <input type="int" name="guest_id" placeholder="Guest ID" class="form-control">
-              </div></br> %>
-
-              <div style="display:inline; " class="form-group tm-form-element tm-form-element-100">
-                <input type="submit" value="Book" class="btn btn-primary tm-btn-search">
+        <div class="tm-section tm-bg-img" id="tm-section-1">
+          <div class="tm-bg-white ie-container-width-fix-2">
+            <div class="container ie-h-align-center-fix">
+              <div class="row">
+                <div class="col-xs-12 ml-auto mr-auto ie-container-width-fix">
+                  <form action="/listings/<%= @listing.id %>" method="POST" class="tm-search-form tm-section-pad-2">
+                    <div class="form-row tm-search-form-row">
+                      <div class="ml-auto mr-auto form-group tm-form-element tm-form-element-100">
+                        Check In <input type="date" name="check_in" placeholder="Check In" class="form-control">
+                      </div>
+                    </div>
+                    <div class="form-row tm-search-form-row">
+                      <div class="ml-auto mr-auto form-group tm-form-element tm-form-element-100">
+                        Check out <input type="date" name="check_out" placeholder="Check Out" class="form-control">
+                      </div>
+                    </div>
+                    <div class="form-row tm-search-form-row">
+                      <div class="ml-auto mr-auto form-group tm-form-element tm-form-element-100"">
+                        <button type="submit" class="btn btn-primary tm-btn-search">Book</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
               </div>
-            </form>
+            </div>
           </div>
-
-
-    </body>
-</html>
+        </div>
+        <div class="tm-section-2">
+          <div class="container">
+            <div class="row">
+              <div class="col text-center">
+                <h2 class="tm-section-title">MAKERSBNB</h2>
+                <p class="tm-color-white tm-section-subtitle">Commit and Travel!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </body>
+    </html>

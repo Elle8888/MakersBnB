@@ -28,21 +28,20 @@ class Application < Sinatra::Base
   end
 
   get '/' do
-    # return session[:user_id]
-
-    p session
+    @logged_in = logged_in?
+    user_repo = UserRepository.new
+    @username = user_repo.find_by_session_id(session[:session_id])
     return erb(:index)
   end
 
   get '/users' do
+    @logged_in = logged_in?
     repo = UserRepository.new
     @users = repo.all
-
     return erb(:user_all)
   end
 
   get '/signup' do
-
     @user = User.new
     @user.username = params[:username]
     @user.email = params[:email]
@@ -58,14 +57,21 @@ class Application < Sinatra::Base
     end
 
     repo = UserRepository.new
-    new_user = User.new
-    new_user.username = params[:username]
-    new_user.email = params[:email]
-    new_user.password = params[:password]
+    if repo.find_by_name(params[:username]) == nil
+      if repo.find_by_email(params[:email]) == nil
 
-    repo.create(new_user)
+        new_user = User.new
+        new_user.username = params[:username]
+        new_user.email = params[:email]
+        new_user.password = params[:password]
 
-    redirect '/login'
+        repo.create(new_user)
+
+        redirect '/login'
+      end
+    end
+
+    redirect '/signup'
   end
 
   get '/login' do
@@ -76,9 +82,9 @@ class Application < Sinatra::Base
 
     repo = UserRepository.new
     user = repo.find_by_values(params[:email])
-
     unless user.nil?
       password = BCrypt::Password.new(user.password)
+
       if password == params[:password]
         #  session[:user_id] = user.id
         # puts "SESSION: #{session.to_s}"
@@ -109,16 +115,39 @@ class Application < Sinatra::Base
   end
 
   get '/listings' do
+    @logged_in = logged_in?
     repo = ListingRepository.new
     @all_listings = repo.all
     return erb(:listings)
   end
 
   get '/listings/new' do
+    @logged_in = logged_in?
+    redirect "/login" if !@logged_in
     return erb(:new_listings)
   end
 
+  post '/listings/new' do
+    user_repo = UserRepository.new
+    user_id = user_repo.find_by_session_id(session[:session_id]).id
+    
+    new_listing = Listing.new
+    new_listing.name = params[:name]
+    new_listing.description = params[:description]
+    new_listing.price = params[:price]
+    new_listing.user_id = user_id
+    new_listing.available_from = params[:available_from]
+    new_listing.available_to = params[:available_to]
+
+    repo = ListingRepository.new
+    repo.create(new_listing)
+    return redirect ('/listings')
+  end
+
   get '/listings/:id' do
+    @logged_in = logged_in?
+    redirect "/login" if !@logged_in
+
     repo = ListingRepository.new
     @listing = repo.find(params[:id])
     repo = BookingRepository.new
@@ -146,21 +175,9 @@ class Application < Sinatra::Base
     return erb(:requested_booking)
   end
 
-  post '/listings/new' do
-    new_listing = Listing.new
-    new_listing.name = params[:name]
-    new_listing.description = params[:description]
-    new_listing.price = params[:price]
-    new_listing.user_id = params[:user_id]
-    new_listing.available_from = params[:available_from]
-    new_listing.available_to = params[:available_to]
-
-    repo = ListingRepository.new
-    repo.create(new_listing)
-    return redirect ('/listings')
-  end
-
   get '/requests' do
+    @logged_in = logged_in?
+    redirect "/login" if !@logged_in
     user_repo = UserRepository.new
     user_id = user_repo.find_by_session_id(session[:session_id]).id
     booking_repo = BookingRepository.new
@@ -187,19 +204,29 @@ class Application < Sinatra::Base
   end
 
   get '/logout' do
+    @logged_in = logged_in?
     repo = UserRepository.new
     user = repo.find_by_session_id(session['session_id'])
     repo.update_session_id(user.id, nil)
     redirect '/'
   end
 
-
+  get '/confirm' do
+    return erb(:confirm)
+  end
 
   private
 
   # It doesn't check for listing_id or guest_id because when done properly the user will not input either.
   def invalid_booking_params
     return (params[:check_in] == "" || params[:check_out] == "")
+  end
+
+  def logged_in?
+    repo = UserRepository.new
+    user_id = repo.find_by_session_id(session['session_id'])
+    return false if user_id == nil
+    return true if user_id != nil
   end
 
 end

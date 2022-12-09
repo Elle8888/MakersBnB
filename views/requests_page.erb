@@ -1,38 +1,116 @@
-<html>
-  <body>
-    <h1>Requests</h1>
-    <div>
-      <h2>My requests</h2>
-      <% @requested_bookings.each do |request| %>
-        <p>
-          <%= request.name%>
-          <%= request.price%>
-          Check In: <%= request.check_in%>
-          Check Out: <%= request.check_out%>
-          Status: <%= request.confirmed%>
-        </p>
-      <% end %>
-    </div>
-
-    <div>
-      <h2>Requests to approve</h2>
-      <% @requests_to_approve.each do |request| %> 
-        <p>
-          <%= request.name%>
-          <%= request.price%>
-          Check In: <%= request.check_in%>
-          Check Out: <%= request.check_out%>
-          Status: <%= request.confirmed%>
-          <form action='/requests/approve' method='POST'>
-            <input type="hidden" name="booking_id" value=<%= request.id%>>
-            <input type='submit' value='Approve'>
-          </form>
-          <form action='/requests/reject' method='POST'>
-            <input type="hidden" name="booking_id" value=<%= request.id%>>
-            <input type='submit' value='Reject'>
-          </form>
-        </p>
-      <% end %>
-    </div>
-  </body>
-<html>
+html lang="en">
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Requests</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
+    <link rel="stylesheet" href="style/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="style/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="style/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="style/slick/slick-theme.css"/>
+    <link rel="stylesheet" type="text/css" href="style/css/datepicker.css"/>
+    <link rel="stylesheet" href="style/css/tooplate-style.css">
+    <style>
+      h1 {text-align: center;}
+      p {text-align: center;}
+      div {text-align: center;}
+      .center {margin: auto;}
+    </style>
+    <body>
+      <div class="tm-main-content" id="top">
+        <div class="tm-top-bar-bg"></div>
+        <div class="tm-top-bar" id="tm-top-bar">
+          <!-- Top Navbar -->
+          <div class="container">
+            <div class="row">
+              <nav class="navbar navbar-expand-lg narbar-light">
+                <a class="navbar-brand mr-auto" href="#">
+                  <img src="style/img/makersbnb.png" width="110" height="110" alt="Site logo">
+                </a>
+                <button type="button" id="nav-toggle" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+                <div id="mainNav" class="collapse navbar-collapse tm-bg-white">
+                  <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                      <a class="nav-link">
+                        <% unless @username.nil? %>
+                          Welcome! <%= @username.username %>
+                        <% end %>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <% if !@logged_in %>
+                      <li class="nav-item">
+                        <a class="nav-link" href="/signup">Register</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="/login">Log in</a>
+                      </li>
+                    <% elsif @logged_in %>
+                      <li class="nav-item">
+                        <a class="nav-link" href="/listings">Explore</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="/requests">My Requests</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                      </li>
+                    <% end %>
+                  </ul>
+                </div>
+              </nav>
+            </div>
+          </div>
+        </div>
+        <h1>Requests</h1>
+        <div>
+          <h2>My requests</h2>
+          <% @requested_bookings.each do |request| %>
+            <p>
+              <%= request.name%>
+              <%= request.price%>
+              Check In: <%= request.check_in%>
+              Check Out: <%= request.check_out%>
+              Status: <%= request.confirmed%>
+            </p>
+          <% end %>
+        </div>
+        <div>
+          <h2>Requests to approve</h2>
+          <% @requests_to_approve.each do |request| %>
+            <p>
+              <%= request.name%>
+              <%= request.price%>
+              Check In: <%= request.check_in%>
+              Check Out: <%= request.check_out%>
+              Status: <%= request.confirmed%>
+              <form action='/requests/approve' method='POST'>
+                <input type="hidden" name="booking_id" value=<%= request.id%>>
+                <input type='submit' value='Approve'>
+              </form>
+              <form action='/requests/reject' method='POST'>
+                <input type="hidden" name="booking_id" value=<%= request.id%>>
+                <input type='submit' value='Reject'>
+              </form>
+            </p>
+          <% end %>
+        </div>
+        <div class="tm-section-2">
+          <div class="container">
+            <div class="row">
+              <div class="col text-center">
+                <h2 class="tm-section-title">MAKERSBNB</h2>
+                <p class="tm-color-white tm-section-subtitle">Commit and Travel!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </body>
+      <html>
