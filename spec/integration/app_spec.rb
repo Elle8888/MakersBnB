@@ -46,9 +46,10 @@ describe Application do
 
 
       expect(response.status).to eq(200)
-      expect(response.body).to include('<h1>Make a booking!</h1>')
+      
       expect(response.body).to include('<form action="/listings/1" method="POST" class="tm-search-form tm-section-pad-2">')
       expect(response.body).to include('<input type="date" name="check_out" placeholder="Check Out" class="form-control">')
+      expect(response.body).to include('<button type="submit" class="btn btn-primary tm-btn-search">Book</button>')
     end
   end
 
